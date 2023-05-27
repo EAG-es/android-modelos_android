@@ -23,7 +23,7 @@ import java.util.ResourceBundle;
  * @author emilio
  */
 public class Resources extends bases {
-    public static String k_in_ruta = "assets/in/android/innui/modelos/configuraciones/in";
+    public static String k_in_ruta = "assets/in/android/innui/modelos_android/configuraciones/in";
     /**
      * Obtiene un recurso
      * @param ruta_relativa ruta del recurso
@@ -84,6 +84,10 @@ public class Resources extends bases {
             } else {
                 url = clase.getResource(ruta_relativa);
                 ok.es = (url != null);
+                if (ok.es) {
+                    ResourceBundles._instalar_fuera(ruta_relativa, ok, extra_array);
+                    if (ok.es == false) { return null; }
+                }
             }
         } catch (Exception e) {
             in = ResourceBundles.getBundle(k_in_ruta);
@@ -152,10 +156,10 @@ public class Resources extends bases {
                 inputstream = file.toURI().toURL().openStream();
             } else {
                 inputstream = clase.getResourceAsStream(ruta_relativa);
-                if (ruta_relativa.startsWith(k_ruta_relativa_recursos)
-                        || ruta_relativa.startsWith(k_ruta_relativa_internacionalizacion)) {
-                    ok.iniciar();
-                    recursos_modificables.instalar_fuera(clase, ruta_relativa, ok);
+                ok.es = (inputstream != null);
+                if (ok.es) {
+                    ResourceBundles._instalar_fuera(ruta_relativa, ok, extra_array);
+                    if (ok.es == false) { return null; }
                 }
             }
         } catch (Exception e) {

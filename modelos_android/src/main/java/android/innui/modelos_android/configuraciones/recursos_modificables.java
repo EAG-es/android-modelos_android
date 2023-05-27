@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
  */
 public class recursos_modificables extends bases {
 
-    public static String k_in_ruta = "assets/in/android/innui/modelos/configuraciones/in";
+    public static String k_in_ruta = "assets/in/android/innui/modelos_android/configuraciones/in";
     /**
      * Copia un recurso localizado relativo a una clase, a una ruta de destino.
      * @param clase Clase de referencia relativa
@@ -69,7 +69,7 @@ public class recursos_modificables extends bases {
             String ruta_absoluta_destino;
             inputStream = clase.getResourceAsStream(ruta_origen_recurso);
             File externo_directorio = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-            File file = new File(externo_directorio, iniciales.k_ruta_externa_recursos);
+            File file = new File(externo_directorio, iniciales.k_ruta_aplicacion);
             file = new File(file, ruta_destino_relativo);
             ruta_absoluta_destino = file.getCanonicalPath();
             ok.no_nul(ruta_absoluta_destino);
@@ -123,7 +123,7 @@ public class recursos_modificables extends bases {
             String ruta_absoluta_destino;
             File file;
             File externo_directorio = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-            file = new File(externo_directorio, iniciales.k_ruta_externa_recursos);
+            file = new File(externo_directorio, iniciales.k_ruta_aplicacion);
             file = new File(file, ruta_recurso);
             if (file.exists() == false) {
                 rutas.crear_rutas_padre(file, ok);
@@ -152,7 +152,7 @@ public class recursos_modificables extends bases {
             String ruta_absoluta_destino;
             File file;
             File externo_directorio = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-            file = new File(externo_directorio, iniciales.k_ruta_externa_recursos);
+            file = new File(externo_directorio, iniciales.k_ruta_aplicacion);
             file = new File(file, ruta_origen_recurso);
             if (file.exists() == false) {
                 ok.es = rutas.crear_rutas_padre(file, ok);

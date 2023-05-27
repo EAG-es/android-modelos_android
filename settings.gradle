@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Modelos_android"
-include ':app'
+include ':app_modelos_android'
 include ':modelos_android'

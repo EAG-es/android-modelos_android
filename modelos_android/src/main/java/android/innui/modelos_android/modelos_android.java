@@ -133,6 +133,9 @@ public class modelos_android extends iniciales {
     @Override
     public boolean iniciar(oks ok, Object... extra_array) throws Exception {
         // Iniciar clase principal de la librería
+        if (ok.es == false) { return ok.es; }
+        _poner_aplicacion(this.getClass(), ok);
+        if (ok.es == false) { return ok.es; }
         _iniciar_desde_clase(this.getClass(), ok);
         return ok.es;
     }

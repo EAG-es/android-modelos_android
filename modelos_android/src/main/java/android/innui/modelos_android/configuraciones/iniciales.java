@@ -18,15 +18,36 @@ import java.util.ResourceBundle;
  * @author emilio
  */
 public abstract class iniciales extends bases {
-    public static String k_ruta_externa_recursos = "/"; // "/re_android_apps";
+    public static String k_ruta_aplicacion = null;
     public static String k_ruta_relativa_recursos = "/assets/re"; //NOI18N
     public static String k_ruta_relativa_internacionalizacion = "/assets/in"; //NOI18N
     public static String k_extension_properties = ".properties";
     public static String k_ruta_relativa_properties = "/re/configuraciones" + k_extension_properties;  //NOI18N
-    public static String k_in_ruta = "assets/in/android/innui/modelos/configuraciones/in";  //NOI18N
+    public static String k_in_ruta = "assets/in/android/innui/modelos_android/configuraciones/in";  //NOI18N
     public static String k_propiedad_duplicada = "propiedad_duplicada";
     public Properties properties = null;
-    
+
+    /**
+     * Determina el nombre de la aplicación
+     * @param mainclass
+     * @param ok
+     * @param extras_array
+     * @return
+     * @throws Exception
+     */
+    public boolean _poner_aplicacion(Class<?> mainclass, oks ok, Object ... extras_array) throws Exception {
+        try {
+            if (ok.es == false) {
+                return false;
+            }
+            String ruta_properties;
+            ruta_properties = mainclass.getPackageName();
+            k_ruta_aplicacion = "/" + ruta_properties;
+            return ok.es;
+        } catch (Exception e) {
+            throw e; // Ayuda para la depuración
+        }
+    }
     /**
      * Este método debería ser llamado desde iniciar. 
      * Realiza la configuración por defecto del logger, 
@@ -42,6 +63,11 @@ public abstract class iniciales extends bases {
         try {
             if (ok.es == false) { return false; }
             ResourceBundle in;
+            String ruta_properties;
+            if (k_ruta_aplicacion == null) {
+                ok.setTxt("_poner_aplicacion no ha sido llamado. ");
+                return false;
+            }
             in = ResourceBundles.getBundle(k_in_ruta);
             _logger = Loggers.getLogger(null);
             bases.k_logger_nombre.setLength(0);
@@ -51,7 +77,6 @@ public abstract class iniciales extends bases {
                 properties = new Properties();
             }
             // load a properties file
-            String ruta_properties;
             ruta_properties = mainclass.getPackageName();
             File file = new File(k_ruta_relativa_recursos, ruta_properties + k_extension_properties);
             ruta_properties = file.getCanonicalPath();

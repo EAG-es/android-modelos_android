@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
  * @author emilio
  */
 public class rutas extends bases {
-    public static String k_in_ruta = "assets/in/android/innui/modelos/configuraciones/in";
+    public static String k_in_ruta = "assets/in/android/innui/modelos_android/configuraciones/in";
 
     /**
      * Crear la mismas rutas que presenta la ruta del archivo pasado como parámetro (si no existe)
@@ -113,7 +113,7 @@ public class rutas extends bases {
         URL url;
         try {
             File externo_directorio = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-            file = new File(externo_directorio, iniciales.k_ruta_externa_recursos);
+            file = new File(externo_directorio, iniciales.k_ruta_aplicacion);
             file = new File(file, ruta_relativa);
             retorno = file.getCanonicalPath();
         } catch (Exception e) {

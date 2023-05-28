@@ -115,7 +115,7 @@ public class literales extends bases {
                 if (donde_buscar.regionMatches(ignorar_caso, i, que_buscar, 0, que_buscar.length())) {
                     encontrado_pos = i;
                     break;
-                } else if (("" + donde_buscar.charAt(i)).isBlank() == false) {
+                } else if (("" + donde_buscar.charAt(i)).trim().isEmpty() == false) {
                     return -1;
                 }
                 i = i + 1;

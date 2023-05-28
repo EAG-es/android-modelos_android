@@ -66,7 +66,7 @@ public class sql_comandos {
             }
             String [] nombres_array;
             for (Object object: extra_array) {
-                if (object != null && object.toString().isBlank() == false) {
+                if (object != null && object.toString().trim().isEmpty() == false) {
                     nombres_array = object.toString().trim().split("\\s+");
                     lectura_columnas_lista.add(nombres_array[nombres_array.length-1]);
                 }
@@ -93,7 +93,7 @@ public class sql_comandos {
             int i = 0;
             for (String columna: columnas_array) {
                 columna = columna.trim();
-                if (columna.isBlank() == false) {
+                if (columna.trim().isEmpty() == false) {
                     objects_array[i] = columna;
                     i = i + 1;
                 }
@@ -196,7 +196,7 @@ public class sql_comandos {
                     } else {
                         columnas_tex = "";
                         for (String columna: lectura_columnas_lista) {
-                            if (columnas_tex.isBlank()) {
+                            if (columnas_tex.trim().isEmpty()) {
                                 columnas_tex = columnas_tex + columna;
                             } else {
                                 columnas_tex = columnas_tex + ", " + columna;
@@ -385,22 +385,22 @@ public class sql_comandos {
                 texto = "null";
             } else if (valor instanceof String) {
                 texto = "'" + valor + "'";
-            } else if (valor instanceof Date valor_date) {
-                texto = "'" + String.format(k_sql_comandos_formato_date, valor_date) + "'";
-            } else if (valor instanceof Time valor_time) {
-                texto = "'" + String.format(k_sql_comandos_formato_time, valor_time) + "'";
-            } else if (valor instanceof Integer valor_integer) {
-                texto = String.valueOf(valor_integer);
-            } else if (valor instanceof Long valor_long) {
-                texto = String.valueOf(valor_long);
-            } else if (valor instanceof Double valor_double) {
-                texto = String.valueOf(valor_double);
-            } else if (valor instanceof Float valor_float) {
-                texto = String.valueOf(valor_float);
-            } else if (valor instanceof BigDecimal valor_bigdecimal) {
-                texto = valor_bigdecimal.toPlainString();
-            } else if (valor instanceof BigInteger valor_biginteger) {
-                texto = valor_biginteger.toString();
+            } else if (valor instanceof Date) {
+                texto = "'" + String.format(k_sql_comandos_formato_date, (Date) valor) + "'";
+            } else if (valor instanceof Time) {
+                texto = "'" + String.format(k_sql_comandos_formato_time, (Time) valor) + "'";
+            } else if (valor instanceof Integer) {
+                texto = String.valueOf((Integer) valor);
+            } else if (valor instanceof Long) {
+                texto = String.valueOf((Long) valor);
+            } else if (valor instanceof Double) {
+                texto = String.valueOf((Double) valor);
+            } else if (valor instanceof Float) {
+                texto = String.valueOf((Float) valor);
+            } else if (valor instanceof BigDecimal) {
+                texto = ((BigDecimal) valor).toPlainString();
+            } else if (valor instanceof BigInteger) {
+                texto = ((BigInteger) valor).toString();
             } else {
                 texto = valor.toString();
             }

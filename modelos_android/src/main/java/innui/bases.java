@@ -337,26 +337,33 @@ public class bases implements i_formatos, i_escrituras {
                 if (ser_posible_log(nivel, ok)) {
                     Level level;
                     switch (nivel) {
-                    case Log.ASSERT -> {
+                    case Log.ASSERT: {
                         level = Level.SEVERE;
+                        break;
                     }
-                    case Log.ERROR -> {
+                    case Log.ERROR: {
                         level = Level.WARNING;
+                        break;
                     }
-                    case Log.WARN -> {
+                    case Log.WARN: {
                         level = Level.INFO;
+                        break;
                     }
-                    case Log.INFO -> {
+                    case Log.INFO: {
                         level = Level.CONFIG;
+                        break;
                     }
-                    case Log.DEBUG -> {
+                    case Log.DEBUG: {
                         level = Level.FINE;
+                        break;
                     }
-                    case Log.VERBOSE -> {
+                    case Log.VERBOSE: {
                         level = Level.FINER;
+                        break;
                     }
-                    default -> {
+                    default: {
                         level = Level.FINEST;
+                        break;
                     }
                     }
                     _logger.log(level, texto);

@@ -27,6 +27,7 @@ import java.util.zip.ZipInputStream;
 public class recursos_modificables extends bases {
 
     public static String k_in_ruta = "assets/in/android/innui/modelos_android/configuraciones/in";
+    public static String k_assets = "assets";
     public static String k_no_contexto_android = "No se conoce el contexto android. ";
     public static String k_no_directorio_o_vacio = "No es un directorio, o está vacío. ";
 
@@ -195,7 +196,7 @@ public class recursos_modificables extends bases {
             listar_contenido_de_jar(context, contenido_lista, ok);
             if (ok.es) {
                 if (ruta_origen_recurso.endsWith(File.separator) == false) {
-                    ruta_origen_recurso=ruta_origen_recurso + File.separator;
+                    ruta_origen_recurso = ruta_origen_recurso + File.separator;
                 }
                 for (String ruta: contenido_lista) {
                     if (ruta.startsWith(ruta_origen_recurso)) {
@@ -221,11 +222,8 @@ public class recursos_modificables extends bases {
      */
     public static boolean listar_contenido_de_jar(Context context, List<String> contenido_lista, oks ok, Object ... extra_array) throws Exception {
         if (ok.es == false) { return false; }
-        String k_inicio = File.separator;
+        String k_inicio = "";
         ResourceBundle in;
-        String nombre;
-        String ruta;
-        List<String> directorios_lista = new ArrayList<>();
         try {
             File file;
             AssetManager assetManager = context.getAssets();
@@ -233,12 +231,16 @@ public class recursos_modificables extends bases {
             for (String asset: assets_array) {
                 file = new File(k_inicio, asset);
                 asset = file.getCanonicalPath();
-                listar_contenido_de_jar(assetManager, asset,contenido_lista, ok);
-                if (ok.id.equals(k_no_directorio_o_vacio)) {
-                    ok.iniciar();
-                    contenido_lista.add(asset);
-                } else {
-                    break;
+                asset = asset.substring(1); // Saltar: "/"
+                listar_contenido_de_jar(assetManager, asset, contenido_lista, ok);
+                if (ok.es == false) {
+                    if (ok.id.equals(k_no_directorio_o_vacio)) {
+                        ok.iniciar();
+                        file = new File(k_assets, asset);
+                        contenido_lista.add(file.getCanonicalPath());
+                    } else {
+                        break;
+                    }
                 }
             }
         } catch (Exception e) {
@@ -268,12 +270,16 @@ public class recursos_modificables extends bases {
                 for (String asset : assets_array) {
                     file = new File(ruta_inicio, asset);
                     asset = file.getCanonicalPath();
+                    asset = asset.substring(1); // Saltar: "/"
                     listar_contenido_de_jar(assetManager, asset, contenido_lista, ok);
-                    if (ok.id.equals(k_no_directorio_o_vacio)) {
-                        ok.iniciar();
-                        contenido_lista.add(asset);
-                    } else {
-                        break;
+                    if (ok.es == false) {
+                        if (ok.id.equals(k_no_directorio_o_vacio)) {
+                            ok.iniciar();
+                            file = new File(k_assets, asset);
+                            contenido_lista.add(file.getCanonicalPath());
+                        } else {
+                            break;
+                        }
                     }
                 }
             }

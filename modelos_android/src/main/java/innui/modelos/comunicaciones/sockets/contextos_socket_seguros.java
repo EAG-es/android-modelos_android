@@ -306,7 +306,13 @@ public class contextos_socket_seguros extends bases {
                 keystore = KeyStore.getInstance("JKS");
                 keystore.load(inputstream, pass_array);
             } else {
-                keystore = KeyStore.getInstance(new File(ruta_almacen), pass_array);
+                File file = new File(ruta_almacen);
+                String extension = file.getName();
+                int pos = extension.lastIndexOf('.');
+                if (pos >= 0) {
+                    extension = extension.substring(pos + 1);
+                }
+                keystore = KeyStore.getInstance(extension, new String(pass_array));
             }
         } catch (Exception e) {
             ok.setTxt(tr.in(in, "ERROR DE EXCEPCIÓN AL OBTENER ALMACEN")

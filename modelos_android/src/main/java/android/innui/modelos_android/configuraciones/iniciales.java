@@ -45,7 +45,7 @@ public abstract class iniciales extends bases {
                 return false;
             }
             String ruta_properties;
-            ruta_properties = mainclass.getPackageName();
+            ruta_properties = mainclass.getPackage().getName();
             k_ruta_aplicacion = "/" + ruta_properties;
             return ok.es;
         } catch (Exception e) {
@@ -98,7 +98,7 @@ public abstract class iniciales extends bases {
                 properties = new Properties();
             }
             // load a properties file
-            ruta_properties = mainclass.getPackageName();
+            ruta_properties = mainclass.getPackage().getName();
             File file = new File(k_ruta_relativa_recursos, ruta_properties + k_extension_properties);
             ruta_properties = file.getCanonicalPath();
             InputStream inputStream = Resources.getResourceAsStream(mainclass, ruta_properties);
@@ -143,7 +143,7 @@ public abstract class iniciales extends bases {
             in = ResourceBundles.getBundle(k_in_ruta);
             // load a properties file
             String ruta_properties;
-            ruta_properties = mainclass.getPackageName();
+            ruta_properties = mainclass.getPackage().getName();
             File file = new File(k_ruta_relativa_recursos, ruta_properties + k_extension_properties);
             ruta_properties = file.getCanonicalPath();
             InputStream inputStream = Resources.getResourceAsStream(mainclass, ruta_properties);

@@ -201,7 +201,7 @@ public class oks extends bases {
             } else {
                 this.txt = txt;
             }
-            if (txt != null && txt.isBlank() == false) {
+            if (txt != null && txt.trim().isEmpty() == false) {
                 es = false;
             }
         } catch (Exception e) {
@@ -224,7 +224,10 @@ public class oks extends bases {
                 if (txt == null) {
                     this.txt = "";
                 } else {
-                    this.txt = this.txt.stripTrailing() + " ";
+                    if (this.txt.length() > 0
+                     && this.txt.charAt(this.txt.length()-1) != ' ') {
+                        this.txt = this.txt + " ";
+                    }
                 }
                 this.txt = this.txt + txt_siguiente;
                 es = false;

@@ -216,7 +216,7 @@ public class Loggers extends SystemLogger_utils {
                 ok.iniciar();
                 nombre = "";
             }
-            if (sufijo == null || sufijo.isBlank()) {
+            if (sufijo == null || sufijo.trim().isEmpty()) {
                 nombre = nombre + "error.log";
             } else {
                 nombre = nombre + sufijo;

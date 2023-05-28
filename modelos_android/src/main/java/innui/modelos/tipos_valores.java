@@ -130,26 +130,26 @@ public class tipos_valores {
                 } else {
                     retorno = valor_tex.toString();
                 }
-            } else if (valor_tex instanceof Date valor_date) {
-                retorno = String.format(k_tipos_valores_formato_date, valor_date);
-            } else if (valor_tex instanceof Time valor_time) {
-                retorno = String.format(k_tipos_valores_formato_time, valor_time);
-            } else if (valor_tex instanceof Integer valor_integer) {
-                retorno = String.format(formato_numero, valor_integer);
-            } else if (valor_tex instanceof Long valor_long) {
-                retorno = String.format(formato_numero, valor_long);
-            } else if (valor_tex instanceof Double valor_double) {
-                retorno = String.format(formato_decimal, valor_double);
-            } else if (valor_tex instanceof Float valor_float) {
-                retorno = String.format(formato_decimal, valor_float);
-            } else if (valor_tex instanceof BigDecimal valor_bigdecimal) {
-                if (valor_bigdecimal.remainder(BigDecimal.ONE).multiply(BigDecimal.valueOf(1000)).compareTo(BigDecimal.ZERO) > 0) {
-                    retorno = String.format(formato_decimal, valor_bigdecimal);
+            } else if (valor_tex instanceof Date) {
+                retorno = String.format(k_tipos_valores_formato_date, (Date) valor);
+            } else if (valor_tex instanceof Time) {
+                retorno = String.format(k_tipos_valores_formato_time, (Time) valor);
+            } else if (valor_tex instanceof Integer) {
+                retorno = String.format(formato_numero, (Integer) valor);
+            } else if (valor_tex instanceof Long) {
+                retorno = String.format(formato_numero, (Long) valor);
+            } else if (valor_tex instanceof Double) {
+                retorno = String.format(formato_decimal, (double) valor);
+            } else if (valor_tex instanceof Float) {
+                retorno = String.format(formato_decimal, (Float) valor);
+            } else if (valor_tex instanceof BigDecimal) {
+                if (((BigDecimal)valor).remainder(BigDecimal.ONE).multiply(BigDecimal.valueOf(1000)).compareTo(BigDecimal.ZERO) > 0) {
+                    retorno = String.format(formato_decimal, (BigDecimal) valor);
                 } else {
-                    retorno = String.format(formato_numero, valor_bigdecimal.toBigIntegerExact());
+                    retorno = String.format(formato_numero, ((BigDecimal) valor).toBigIntegerExact());
                 }
-            } else if (valor_tex instanceof BigInteger valor_biginteger) {
-                retorno = String.format(formato_numero, valor_biginteger);
+            } else if (valor_tex instanceof BigInteger) {
+                retorno = String.format(formato_numero, (BigInteger) valor);
             } else {
                 retorno = valor_tex.toString();
             }

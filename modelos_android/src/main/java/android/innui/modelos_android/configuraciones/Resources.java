@@ -5,6 +5,7 @@
  */
 package android.innui.modelos_android.configuraciones;
 
+import static android.innui.modelos_android.configuraciones.iniciales.k_extension_properties;
 import static android.innui.modelos_android.configuraciones.iniciales.k_ruta_relativa_internacionalizacion;
 import static android.innui.modelos_android.configuraciones.iniciales.k_ruta_relativa_recursos;
 import static android.innui.modelos_android.configuraciones.rutas.crear_ruta_desde_clase;
@@ -85,7 +86,7 @@ public class Resources extends bases {
                 url = clase.getResource(ruta_relativa);
                 ok.es = (url != null);
                 if (ok.es) {
-                    ResourceBundles._instalar_fuera(ruta_relativa, ok, extra_array);
+                    _instalar_fuera(ruta_relativa, ok, extra_array);
                     if (ok.es == false) { return null; }
                 }
             }
@@ -158,7 +159,7 @@ public class Resources extends bases {
                 inputstream = clase.getResourceAsStream(ruta_relativa);
                 ok.es = (inputstream != null);
                 if (ok.es) {
-                    ResourceBundles._instalar_fuera(ruta_relativa, ok, extra_array);
+                    _instalar_fuera(ruta_relativa, ok, extra_array);
                     if (ok.es == false) { return null; }
                 }
             }
@@ -175,6 +176,34 @@ public class Resources extends bases {
         }
         return inputstream;
     }
-
-    
+    /**
+     * Instala el archivo en la ruta de estándar de destino.
+     * @param ruta_base
+     * @param ok
+     * @param extra_array
+     * @return
+     * @throws Exception
+     */
+    public static boolean _instalar_fuera(String ruta_base, oks ok, Object ... extra_array) throws Exception {
+        if (ok.es == false) { return false; }
+        try {
+            File file = new File(ruta_base);
+            ruta_base = file.getAbsolutePath();
+            file = new File(k_ruta_relativa_recursos);
+            String ruta_relativa_recursos = file.getAbsolutePath();
+            file = new File(k_ruta_relativa_internacionalizacion);
+            String ruta_relativa_internacionalizacion = file.getAbsolutePath();
+            if (ruta_base.startsWith(ruta_relativa_recursos)
+                    || ruta_base.startsWith(ruta_relativa_internacionalizacion)) {
+                if (ruta_base.endsWith(k_extension_properties) == false) {
+                    ruta_base = ruta_base + k_extension_properties;
+                }
+                recursos_modificables.instalar_fuera(ResourceBundles.class
+                        , ruta_base, ok);
+            }
+        } catch (Exception e) {
+            ok.setTxt(e);
+        }
+        return ok.es;
+    }
 }

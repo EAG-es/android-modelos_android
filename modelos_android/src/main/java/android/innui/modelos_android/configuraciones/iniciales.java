@@ -1,5 +1,9 @@
 package android.innui.modelos_android.configuraciones;
 
+import static android.innui.modelos_android.configuraciones.recursos_modificables.k_no_contexto_android;
+
+import android.content.Context;
+
 import innui.modelos.errores.Loggers;
 import innui.modelos.errores.oks;
 import innui.modelos.internacionalizacion.tr;
@@ -59,7 +63,7 @@ public abstract class iniciales extends bases {
      * @return true si todo va bien
      * @throws Exception Opción de notificar errores de excepción
      */
-    public boolean _iniciar_desde_clase(Class<?> mainclass, oks ok, Object ... extras_array) throws Exception {
+    public boolean _iniciar_desde_clase(Context context, Class<?> mainclass, oks ok, Object ... extras_array) throws Exception {
         try {
             if (ok.es == false) { return false; }
             ResourceBundle in;
@@ -73,6 +77,23 @@ public abstract class iniciales extends bases {
             bases.k_logger_nombre.setLength(0);
             bases.k_logger_nombre.append(_logger.getName());
             ok.no_nul(_logger, tr.in(in, "Logger nulo. "));
+            if (ok.es == false) { return false; }
+            recursos_modificables.instalar_carpeta_fuera(context, mainclass
+                    , k_ruta_relativa_recursos
+                    , ok);
+            if (ok.es == false) {
+                if (ok.id.equals(k_no_contexto_android) == false) {
+                    return false;
+                }
+            }
+            recursos_modificables.instalar_carpeta_fuera(context, mainclass
+                    , k_ruta_relativa_internacionalizacion
+                    , ok);
+            if (ok.es == false) {
+                if (ok.id.equals(k_no_contexto_android) == false) {
+                    return false;
+                }
+            }
             if (properties == null) {
                 properties = new Properties();
             }

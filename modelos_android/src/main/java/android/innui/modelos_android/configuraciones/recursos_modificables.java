@@ -6,6 +6,8 @@ import innui.modelos.errores.oks;
 import innui.modelos.internacionalizacion.tr;
 import innui.bases;
 
+import android.content.Context;
+import android.content.res.AssetManager;
 import android.os.Environment;
 
 import java.io.File;
@@ -13,7 +15,10 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.zip.ZipInputStream;
 
 /**
  *
@@ -22,6 +27,9 @@ import java.util.ResourceBundle;
 public class recursos_modificables extends bases {
 
     public static String k_in_ruta = "assets/in/android/innui/modelos_android/configuraciones/in";
+    public static String k_no_contexto_android = "No se conoce el contexto android. ";
+    public static String k_no_directorio_o_vacio = "No es un directorio, o está vacío. ";
+
     /**
      * Copia un recurso localizado relativo a una clase, a una ruta de destino.
      * @param clase Clase de referencia relativa
@@ -151,13 +159,13 @@ public class recursos_modificables extends bases {
             if (ok.es == false) { return false; }
             String ruta_absoluta_destino;
             File file;
-            File externo_directorio = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-            file = new File(externo_directorio, iniciales.k_ruta_aplicacion);
-            file = new File(file, ruta_origen_recurso);
+            ruta_absoluta_destino = rutas.crear_ruta_desde_clase(clase, ruta_destino_recurso, ok);
+            ok.no_nul(ruta_absoluta_destino);
+            if (ok.es == false) { return false; }
+            file = new File(ruta_absoluta_destino);
             if (file.exists() == false) {
                 ok.es = rutas.crear_rutas_padre(file, ok);
                 if (ok.es == false) { return false; }
-                ruta_absoluta_destino = file.getCanonicalPath();
                 copiar_recurso(clase, ruta_origen_recurso, ruta_absoluta_destino, ok);
             }
             return ok.es;
@@ -165,4 +173,114 @@ public class recursos_modificables extends bases {
             throw e; // Ayuda para la depuración
         }
     }
+    /**
+     * Copia una carpeta fuera de un archivo jar (si no existe ya), manteniendo la misma estructura de carpetas.
+     * @param context
+     * @param clase Clase de referencia relativa
+     * @param ruta_origen_recurso Ruta relativa del recurso
+     * @param ok Comunicar resultados
+     * @param extra_array Opción de añadir parámetros en el futuro.
+     * @return true si todo va bien
+     * @throws Exception Opción de notificar errores de excepción
+     */
+    public static boolean instalar_carpeta_fuera(Context context, Class clase, String ruta_origen_recurso, oks ok, Object ... extra_array) throws Exception {
+        try {
+            if (ok.es == false) { return false; }
+            if (context == null) {
+                ok.id = k_no_contexto_android;
+                ok.setTxt(k_no_contexto_android);
+                return false;
+            }
+            List<String> contenido_lista = new ArrayList<>();
+            listar_contenido_de_jar(context, contenido_lista, ok);
+            if (ok.es) {
+                if (ruta_origen_recurso.endsWith(File.separator) == false) {
+                    ruta_origen_recurso=ruta_origen_recurso + File.separator;
+                }
+                for (String ruta: contenido_lista) {
+                    if (ruta.startsWith(ruta_origen_recurso)) {
+                        ok.es = instalar_fuera(clase, ruta, ok);
+                        if (ok.es == false) {
+                            break;
+                        }
+                    }
+                }
+            }
+            return ok.es;
+        } catch (Exception e) {
+            throw e; // Ayuda para la depuración
+        }
+    }
+    /**
+     * Lista el contenido de un archivo jar
+     * @param contenido_lista Lista con el contenido del jar
+     * @param ok Comunicar resultados
+     * @param extra_array Opción de añadir parámetros en el futuro.
+     * @return true si todo va bien
+     * @throws Exception Opción de notificar errores de excepción
+     */
+    public static boolean listar_contenido_de_jar(Context context, List<String> contenido_lista, oks ok, Object ... extra_array) throws Exception {
+        if (ok.es == false) { return false; }
+        String k_inicio = File.separator;
+        ResourceBundle in;
+        String nombre;
+        String ruta;
+        List<String> directorios_lista = new ArrayList<>();
+        try {
+            File file;
+            AssetManager assetManager = context.getAssets();
+            String [] assets_array = assetManager.list(k_inicio);
+            for (String asset: assets_array) {
+                file = new File(k_inicio, asset);
+                asset = file.getCanonicalPath();
+                listar_contenido_de_jar(assetManager, asset,contenido_lista, ok);
+                if (ok.id.equals(k_no_directorio_o_vacio)) {
+                    ok.iniciar();
+                    contenido_lista.add(asset);
+                } else {
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            in = ResourceBundles.getBundle(k_in_ruta);
+            ok.setTxt(tr.in(in, "ERROR DE EXCEPCIÓN AL LISTAR EL CONTENIDO DE UN JAR. "), e);
+        }
+        return ok.es;
+    }
+    /**
+     * Lista el contenido de un archivo jar
+     * @param contenido_lista Lista con el contenido del jar
+     * @param ok Comunicar resultados
+     * @param extra_array Opción de añadir parámetros en el futuro.
+     * @return true si todo va bien
+     * @throws Exception Opción de notificar errores de excepción
+     */
+    public static boolean listar_contenido_de_jar(AssetManager assetManager, String ruta_inicio, List<String> contenido_lista, oks ok, Object ... extra_array) throws Exception {
+        if (ok.es == false) { return false; }
+        ResourceBundle in;
+        try {
+            File file;
+            String [] assets_array = assetManager.list(ruta_inicio);
+            if (assets_array.length == 0) {
+                ok.id = k_no_directorio_o_vacio;
+                ok.setTxt(k_no_directorio_o_vacio);
+            } else {
+                for (String asset : assets_array) {
+                    file = new File(ruta_inicio, asset);
+                    asset = file.getCanonicalPath();
+                    listar_contenido_de_jar(assetManager, asset, contenido_lista, ok);
+                    if (ok.id.equals(k_no_directorio_o_vacio)) {
+                        ok.iniciar();
+                        contenido_lista.add(asset);
+                    } else {
+                        break;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            in = ResourceBundles.getBundle(k_in_ruta);
+            ok.setTxt(tr.in(in, "ERROR DE EXCEPCIÓN AL LISTAR EL CONTENIDO DE UN JAR. "), e);
+        }
+        return ok.es;
+}
 }

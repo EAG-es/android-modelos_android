@@ -136,7 +136,7 @@ public class modelos_android extends iniciales {
         if (ok.es == false) { return ok.es; }
         _poner_aplicacion(this.getClass(), ok);
         if (ok.es == false) { return ok.es; }
-        _iniciar_desde_clase(this.getClass(), ok);
+        _iniciar_desde_clase(null, this.getClass(), ok);
         return ok.es;
     }
 

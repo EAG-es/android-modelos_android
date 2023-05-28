@@ -92,11 +92,6 @@ public class ResourceBundles extends bases {
                     resourceBundle = ResourceBundle.getBundle(nombre, locale, loader);
                 } else {
                     resourceBundle = ResourceBundle.getBundle(ruta_base, locale);
-                    ok.es = (resourceBundle != null);
-                    if (ok.es) {
-                        _instalar_fuera(ruta_base, ok, extra_array);
-                        if (ok.es == false) { return null; }
-                    }
                 }
             } else {
                 ruta = crear_ruta_desde_clase(ResourceBundles.class, ruta_base, ok);
@@ -109,19 +104,10 @@ public class ResourceBundles extends bases {
                         resourceBundle = ResourceBundle.getBundle(nombre, locale, loader);
                     } else {
                         resourceBundle = ResourceBundle.getBundle(ruta_base, locale);
-                        ok.es = (resourceBundle != null);
-                        if (ok.es) {
-                            _instalar_fuera(ruta_base, ok, extra_array);
-                            if (ok.es == false) { return null; }
-                        }
                     }
                 } else {
                     resourceBundle = ResourceBundle.getBundle(ruta_base, locale);
                     ok.es = (resourceBundle != null);
-                    if (ok.es) {
-                        _instalar_fuera(ruta_base, ok, extra_array);
-                        if (ok.es == false) { return null; }
-                    }
                 }
             }
             ok.no_nul(resourceBundle);
@@ -162,11 +148,6 @@ public class ResourceBundles extends bases {
                     resourceBundle = ResourceBundle.getBundle(nombre, locale, loader_local);
                 } else {
                     resourceBundle = ResourceBundle.getBundle(ruta_base, locale, loader);
-                    ok.es = (resourceBundle != null);
-                    if (ok.es) {
-                        _instalar_fuera(ruta_base, ok, extra_array);
-                        if (ok.es == false) { return null; }
-                    }
                 }
             }
             ok.no_nul(resourceBundle);
@@ -208,11 +189,6 @@ public class ResourceBundles extends bases {
                         resourceBundle = ResourceBundle.getBundle(nombre, targetLocale, loader_local, control);
                     } else {
                         resourceBundle = ResourceBundle.getBundle(ruta_base, targetLocale, loader, control);
-                        ok.es = (resourceBundle != null);
-                        if (ok.es) {
-                            _instalar_fuera(ruta_base, ok, extra_array);
-                            if (ok.es == false) { return null; }
-                        }
                     }
                 }
             }
@@ -250,11 +226,6 @@ public class ResourceBundles extends bases {
                     resourceBundle = ResourceBundle.getBundle(nombre, targetLocale, loader, control);
                 } else {
                     resourceBundle = ResourceBundle.getBundle(ruta_base, targetLocale, control);
-                    ok.es = (resourceBundle != null);
-                    if (ok.es) {
-                        _instalar_fuera(ruta_base, ok, extra_array);
-                        if (ok.es == false) { return null; }
-                    }
                 }
             } else {
                 ruta = crear_ruta_desde_clase(ResourceBundles.class, ruta_base, ok);
@@ -267,11 +238,6 @@ public class ResourceBundles extends bases {
                         resourceBundle = ResourceBundle.getBundle(nombre, targetLocale, loader, control);
                     } else {
                         resourceBundle = ResourceBundle.getBundle(ruta_base, targetLocale, control);
-                        ok.es = (resourceBundle != null);
-                        if (ok.es) {
-                            _instalar_fuera(ruta_base, ok, extra_array);
-                            if (ok.es == false) { return null; }
-                        }
                     }
                 }
             }
@@ -308,11 +274,6 @@ public class ResourceBundles extends bases {
                     resourceBundle = ResourceBundle.getBundle(nombre, Locale.getDefault(), loader, control);
                 } else {
                     resourceBundle = ResourceBundle.getBundle(ruta_base, control);
-                    ok.es = (resourceBundle != null);
-                    if (ok.es) {
-                        _instalar_fuera(ruta_base, ok, extra_array);
-                        if (ok.es == false) { return null; }
-                    }
                 }
             } else {
                 ruta = crear_ruta_desde_clase(ResourceBundles.class, ruta_base, ok);
@@ -325,19 +286,9 @@ public class ResourceBundles extends bases {
                         resourceBundle = ResourceBundle.getBundle(nombre, Locale.getDefault(), loader, control);
                     } else {
                         resourceBundle = ResourceBundle.getBundle(ruta_base, control);
-                        ok.es = (resourceBundle != null);
-                        if (ok.es) {
-                            _instalar_fuera(ruta_base, ok, extra_array);
-                            if (ok.es == false) { return null; }
-                        }
                     }
                 } else {
                     resourceBundle = ResourceBundle.getBundle(ruta_base, control);
-                    ok.es = (resourceBundle != null);
-                    if (ok.es) {
-                        _instalar_fuera(ruta_base, ok, extra_array);
-                        if (ok.es == false) { return null; }
-                    }
                 }
             }
             ok.no_nul(resourceBundle);
@@ -393,37 +344,6 @@ public class ResourceBundles extends bases {
     public static ResourceBundle getBundle(String ruta_base, ResourceBundle.Control control) throws Exception {
         oks ok = new oks();
         return getBundle(ruta_base, control, ok);
-    }
-
-    /**
-     * Instala el archivo en la ruta de estándar de destino.
-     * @param ruta_base
-     * @param ok
-     * @param extra_array
-     * @return
-     * @throws Exception
-     */
-    public static boolean _instalar_fuera(String ruta_base, oks ok, Object ... extra_array) throws Exception {
-        if (ok.es == false) { return false; }
-        try {
-            File file = new File(ruta_base);
-            ruta_base = file.getAbsolutePath();
-            file = new File(k_ruta_relativa_recursos);
-            String ruta_relativa_recursos = file.getAbsolutePath();
-            file = new File(k_ruta_relativa_internacionalizacion);
-            String ruta_relativa_internacionalizacion = file.getAbsolutePath();
-            if (ruta_base.startsWith(ruta_relativa_recursos)
-             || ruta_base.startsWith(ruta_relativa_internacionalizacion)) {
-                if (ruta_base.endsWith(k_extension_properties) == false) {
-                    ruta_base = ruta_base + k_extension_properties;
-                }
-                recursos_modificables.instalar_fuera(ResourceBundles.class
-                  , ruta_base, ok);
-            }
-        } catch (Exception e) {
-            ok.setTxt(e);
-        }
-        return ok.es;
     }
 
 }

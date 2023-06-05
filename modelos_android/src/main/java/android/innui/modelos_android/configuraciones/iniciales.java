@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -21,7 +22,7 @@ import java.util.ResourceBundle;
  *
  * @author emilio
  */
-public abstract class iniciales extends bases {
+public abstract class iniciales extends bases implements Serializable {
     public static String k_ruta_aplicacion = null;
     public static String k_ruta_relativa_recursos = "/assets/re"; //NOI18N
     public static String k_ruta_relativa_internacionalizacion = "/assets/in"; //NOI18N

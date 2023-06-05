@@ -3,6 +3,7 @@ package innui.modelos.comunicaciones.sockets;
 import innui.modelos.errores.oks;
 import innui.bases;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,7 @@ import javax.net.ssl.X509TrustManager;
  *
  * @author emilio
  */
-public class sslcontext_sin_verificar_hostnames extends bases {
+public class sslcontext_sin_verificar_hostnames extends bases implements Serializable {
     public SSLSocketFactory inicial_SSLSocketFactory = null;
     public SSLSocketFactory actual_SSLSocketFactory = null;
     public HostnameVerifier inicial_hostnameVerifier = null;

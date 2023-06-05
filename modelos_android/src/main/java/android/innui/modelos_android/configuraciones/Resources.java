@@ -154,7 +154,8 @@ public class Resources extends bases {
                 ok.es = file.exists();
             }
             if (ok.es) {
-                inputstream = file.toURI().toURL().openStream();
+                URL url = file.toURI().toURL();
+                inputstream = url.openStream();
             } else {
                 inputstream = clase.getResourceAsStream(ruta_relativa);
                 ok.es = (inputstream != null);

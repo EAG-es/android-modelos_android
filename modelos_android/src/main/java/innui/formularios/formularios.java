@@ -5,6 +5,7 @@ import innui.modelos.errores.oks;
 import innui.modelos.internacionalizacion.tr;
 import innui.bases;
 
+import java.io.Serializable;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +19,7 @@ import java.util.ResourceBundle;
  *
  * @author emilio
  */
-public class formularios extends bases {
+public class formularios extends bases implements Serializable {
     public static String k_in_base = "assets/in/innui/formularios/in";
     public static String k_fase_captura = "fase_captura";
     public static String k_fase_procesamiento = "fase_procesamiento";

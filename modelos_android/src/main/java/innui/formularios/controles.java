@@ -3,6 +3,7 @@ package innui.formularios;
 import innui.modelos.errores.oks;
 import innui.bases;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,8 +11,8 @@ import java.util.Map;
  *
  * @author emilio
  */
-public class controles extends bases {
-    public static String k_in_ruta = "assets/in/innui/formularios/in";
+public class controles extends bases implements Serializable {
+        public static String k_in_ruta = "assets/in/innui/formularios/in";
     public static String k_opciones_mapa_no_requerido = "no_requerido";
     public formularios _formulario = null;
     public String _control_tipo = "";
@@ -146,6 +147,7 @@ public class controles extends bases {
         Object object = null;
         try {
             if (ok.es == false) { return null; }
+            oks ok_1 = new oks();
             while (true) {
                 ok.iniciar();
                 es_hacer_repetir_procesar = false;
@@ -177,9 +179,11 @@ public class controles extends bases {
                     if (ok.es == false) { break; }
                     break;
                 }
-                object = _terminar(modo_operacion, object, ok, extras_array);
-                if (ok.es == false) { 
-                    oks ok_1 = new oks();
+                ok_1.iniciar();
+                object = _terminar(modo_operacion, object, ok_1, extras_array);
+                if (ok_1.es == false) { break; }
+                if (ok.es == false) {
+                    ok_1.iniciar();
                     escribir_linea_error(ok.getTxt(), ok_1);
                     if (ok_1.es == false) { 
                         ok.setTxt(ok.getTxt(), ok_1.getTxt());
@@ -187,9 +191,9 @@ public class controles extends bases {
                     } else {
                         ok.iniciar();
                     }
-                    es_hacer_repetir_procesar = hacer_repetir_procesar(ok, extras_array);
                 }
-                if (_formulario._es_terminar 
+                es_hacer_repetir_procesar = hacer_repetir_procesar(ok, extras_array);
+                if (_formulario._es_terminar
                  || _formulario._es_cancelar) {
                     break;
                 }
